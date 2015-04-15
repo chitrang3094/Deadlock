@@ -1,0 +1,41 @@
+import java.util.Random;
+
+
+public class Process extends Thread{
+		//int id;
+		int[] R=new int[4];
+		int[] Alloc=new int[4];
+		Random m=new Random();
+		Process(){
+			//this.id=id;
+			for(int i=0;i<4;i++){
+				R[i]=m.nextInt(5);
+				Alloc[i]=0;
+			}
+			
+		}
+		public void run(){
+			while(true){
+				int temp=m.nextInt(4);
+				R[temp]=R[temp]-1;
+				Alloc[temp]+=1;
+				boolean wait=check();
+				if(wait==true){
+					while(true){
+						R[temp]=R[temp]+1;
+						Alloc[temp]-=1;
+						if(wait=check()==false){
+							break;
+						}
+					}
+				}
+			}
+		}
+		public int[] getRequired(){
+			return R;
+		}
+		public int[] getAllocated(){
+			return Alloc;
+		}
+	}
+	
